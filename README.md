@@ -8,3 +8,29 @@ Installing CKAN from source. UA translation
 Також якщо Ви плануєте використовувати операційну систему, засновану не на **Debian**, найкращі способи інсталювання необхідних пакунків у Вашій операційній системі можна переглянути у [цьому розділі](https://github.com/ckan/ckan/wiki/How-to-Install-CKAN).
 
 Натомість у випадку встановлення CKAN ***"from package"*** з допомогою даною інструкції, наприкінці інсталяції ви отримаєте дві запущені веб-програми, **CKAN** і **DataPusher**, окрему службу для автоматичного імпортування даних до розширення [DataStore](https://docs.ckan.org/en/2.8/maintaining/datastore.html) CKAN .
+
+При розгортанні CKAN, є наступні вимоги до портів хоста:
+
+|Сервіс|Порт|Використовується для|
+| :---:  | :---:|:---:|
+|NGINX	|80	|Proxy|
+|Apache2	|8080|	Web Server
+|Solr/Jetty|	8983	|Search
+|PostgreSQL|	5432	|Database
+|Redis|	6379|	Search
+
+### 1. Інсталяція CKAN "from package"
+
+У вашій системі Ubuntu відкрийте **термінал** і по черзі запускайте наступні команди для встановлення CKAN:
+
+#### I. Оновіть індекс пакетів Убунту:
+
+```r
+sudo apt-get update
+```
+
+#### II. Встановіть пакунки Ubuntu, які вимагає CKAN (та "git", щоб мати змогу встановлювати розширення CKAN):
+
+```r
+sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server git-core
+```
