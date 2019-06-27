@@ -118,7 +118,7 @@ host    all             all             192.168.1.22/32                 md5
 Насамкінець відредагуйте параметр [sqlalchemy.url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#sqlalchemy-url) у файлі [конфігурації CKAN](https://docs.ckan.org/en/2.8/maintaining/configuration.html#config-file)(/etc/ckan/default/production.ini) та встановіть коректний пароль та назви бази даних та користувача бази даних (дані з попереднього етапу)
 
 ### 3. Встановлення та налаштування Solr 
-> Ви можете встановити Solr та CKAN на різних серверах. Просто змініть налаштування [solr_url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#solr-url) у вашому файлі /etc/ckan/default/production.ini, щоб щоб він посилався на ваш сервер Solr.
+> Ви можете встановити Solr та CKAN на різних серверах. Просто змініть налаштування [solr_url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#solr-url) (/etc/ckan/default/production.ini, щоб посилання на сервер Solr було коректним.
 
 Встановіть Solr, виконавши наступну команду в терміналі:
 
@@ -192,7 +192,47 @@ sudo service jetty restart
 ```
 Перевірте, чи працює Solr, відкривши http://localhost:8983/solr/ (замініть localhost на адресу вашого сервера, якщо це потрібно).
 
-#### III. Нарешті змініть налаштування [solr_url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#solr-url) (/etc/ckan/default/production.ini, щоб щоб він посилався на ваш сервер Solr, наприклад:
+#### III. Насамкінець змініть налаштування [solr_url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#solr-url) (/etc/ckan/default/production.ini, щоб посилання на сервер Solr було коректним, наприклад:
 ```p
 solr_url=http://127.0.0.1:8983/solr
 ```
+### 4. Оновлення конфігурації та ініціалізація бази даних
+
+#### І. Відредагуйте файл у файлі [конфігурації CKAN](https://docs.ckan.org/en/2.8/maintaining/configuration.html#config-file)(/etc/ckan/default/production.ini), задавши наступні параметри:
+
+**site_id**
+
+Кожен сайт CKAN повинен мати унікальний `site_id`, наприклад:
+```r
+ckan.site_id = default
+```
+**site_url**
+
+Укажіть URL-адресу сайту. Наприклад:
+```r
+ckan.site_url = http://demo.ckan.org
+```
+#### ІІ. Ініціалізуйте вашу базу даних CKAN, виконавши наступну команду в терміналі:
+```p
+sudo ckan db init
+```
+> За бажанням, налаштуйте **DataStore** і **DataPusher**, дотримуючись інструкцій за посиланням [розширення DataStore](https://docs.ckan.org/en/2.8/maintaining/datastore.html).
+
+> Також, за бажання, ви можете увімкнути завантаження файлів, дотримуючись інструкцій за посиланням [FileStore та завантаження файлів](https://docs.ckan.org/en/2.8/maintaining/filestore.html).
+
+### 5. Перезапустіть Apache і Nginx
+```r
+sudo service apache2 restart
+sudo service nginx restart
+```
+### 6. Ви зробили це!
+
+Відкрийте http://localhost (або адресу Вашого сервера) у браузері. Ви повинні побачити головну сторінку CKAN, яка виглядатиме приблизно ось так:
+
+![](https://docs.ckan.org/en/2.8/_images/9.png)
+
+Тепер ви можете перейти до інших розділів, щоб почати використовувати та налаштувати ваш сайт на CKAN.
+Наприклад, Ви можете створити [системного адмінвістатора](https://docs.ckan.org/en/2.8/maintaining/getting-started.html) або змінити [зовнішній вигляд](https://docs.ckan.org/en/2.8/sysadmin-guide.html) Вашого сайту.
+
+Інстукція на англійській занходиться [тут]()https://docs.ckan.org/en/2.8/maintaining/installing/install-from-package.html.
+Подальші налаштування вашого сайту на CKAN [тут](https://docs.ckan.org/en/2.8/maintaining/getting-started.html)
