@@ -29,8 +29,32 @@ Installing CKAN from source. UA translation
 sudo apt-get update
 ```
 
-#### II. Встановіть пакунки Ubuntu, які вимагає CKAN (та "git", щоб мати змогу встановлювати розширення CKAN):
+#### II. Встановіть пакунки Ubuntu, які вимагає CKAN (та "git", щоб мати змогу встановлювати розширення для CKAN):
 
 ```r
 sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server git-core
+```
+#### III. Завантажте пакет CKAN:
+
+Для **Ubuntu 16.04**:
+
+```p
+wget http://packaging.ckan.org/python-ckan_2.8-xenial_amd64.deb
+```
+
+або для **Ubuntu 14.04**:
+```p
+wget http://packaging.ckan.org/python-ckan_2.8-trusty_amd64.deb
+```
+
+#### IV. Встановіть пакет CKAN:
+Для **Ubuntu 16.04**:
+
+```p
+sudo dpkg -i python-ckan_2.8-xenial_amd64.deb
+```
+
+або для **Ubuntu 14.04**:
+```p
+sudo dpkg -i python-ckan_2.8-trusty_amd64.deb
 ```
