@@ -115,3 +115,24 @@ listen_addresses = 'localhost,192.168.1.21'
 ```r
 host    all             all             192.168.1.22/32                 md5
 ```
+Насамкінець відредагуйте параметр [sqlalchemy.url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#sqlalchemy-url) у файлі [конфігурації CKAN](https://docs.ckan.org/en/2.8/maintaining/configuration.html#config-file)(/etc/ckan/default/production.ini) та встановіть коректний пароль та назви бази даних та користувача бази даних (дані з попереднього етапу)
+
+### 3. Встановлення та налаштування Solr 
+> Ви можете встановити Solr та CKAN на різних серверах. Просто змініть налаштування [solr_url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#solr-url) у вашому файлі /etc/ckan/default/production.ini, щоб щоб він посилався на ваш сервер Solr.
+
+Встановіть Solr, виконавши наступну команду в терміналі:
+
+```
+sudo apt-get install -y solr-jetty
+```
+
+У кінці завершення інсталяції Ви побачите наступне:
+
+```
+* Not starting jetty - edit /etc/default/jetty (or /etc/default/jetty8) and change NO_START to be 0 (or comment it out).
+```
+
+CKAN використовує Solr в якості власної пошукової системи. CKAN використовує налаштовувані файли схеми Solr, які враховують усю необхідну специфіку пошуку. Тепер, коли ми встановили CKAN, нам також потрібно встановити та налаштувати Solr.
+
+>> У даній інструкції пояснюється, як розгортати Solr за допомогою веб-сервера Jetty, але CKAN не вимагає Jetty - ви можете розгорнути Solr на іншому веб-сервері, наприклад Tomcat, якщо це зручно у вашій операційній системі.
+
