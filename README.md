@@ -58,3 +58,24 @@ sudo dpkg -i python-ckan_2.8-xenial_amd64.deb
 ```p
 sudo dpkg -i python-ckan_2.8-trusty_amd64.deb
 ```
+
+```diff
+!Примітка
+```
+> **_NOTE:_**  The note content.
+Якщо ви отримали таку помилку, це означає, що з якоїсь причини модуль Apache WSGI не був включений:
+
+```
+Syntax error on line 1 of /etc/apache2/sites-enabled/ckan_default:
+Invalid command 'WSGISocketPrefix', perhaps misspelled or defined by a module not included in the server configuration
+Action 'configtest' failed.
+The Apache error log may have more information.
+   ...fail!
+```
+Ви можете увімкнути його, виконавши по черзі наступні команди в терміналі:
+
+```p
+sudo a2enmod wsgi
+sudo service apache2 restart
+```
+
