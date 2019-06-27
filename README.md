@@ -62,8 +62,7 @@ sudo dpkg -i python-ckan_2.8-trusty_amd64.deb
 ```diff
 !Примітка
 ```
-> **_NOTE:_**  The note content.
-Якщо ви отримали таку помилку, це означає, що з якоїсь причини модуль Apache WSGI не був включений:
+> Якщо ви отримали таку помилку, це означає, що з якоїсь причини модуль Apache WSGI не був включений:
 
 ```
 Syntax error on line 1 of /etc/apache2/sites-enabled/ckan_default:
