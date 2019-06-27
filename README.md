@@ -23,12 +23,11 @@ Installing CKAN from source. UA translation
 
 У вашій системі Ubuntu відкрийте **термінал** і по черзі запускайте наступні команди для встановлення CKAN:
 
-#### I. Оновіть індекс пакетів Убунту:
+#### I. Оновіть індекси пакетів Убунту:
 
 ```r
 sudo apt-get update
 ```
-
 #### II. Встановіть пакунки Ubuntu, які вимагає CKAN (та "git", щоб мати змогу встановлювати розширення для CKAN):
 
 ```r
@@ -41,7 +40,6 @@ sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server gi
 ```p
 wget http://packaging.ckan.org/python-ckan_2.8-xenial_amd64.deb
 ```
-
 або для **Ubuntu 14.04**:
 ```p
 wget http://packaging.ckan.org/python-ckan_2.8-trusty_amd64.deb
@@ -71,10 +69,34 @@ Action 'configtest' failed.
 The Apache error log may have more information.
    ...fail!
 ```
-Ви можете увімкнути його, виконавши по черзі наступні команди в терміналі:
+> Ви можете увімкнути його, виконавши по черзі наступні команди в терміналі:
 
 ```p
 sudo a2enmod wsgi
 sudo service apache2 restart
 ```
+### 2. Встановлення та налаштування PostgreSQL
 
+Встановіть PostgreSQL, виконавши наступну команду в терміналі:
+
+```
+sudo apt-get install -y postgresql
+```
+Перевірте, чи правильно встановлено PostgreSQL, вказавши існуючі бази даних:
+
+```
+sudo -u postgres psql -l
+```
+
+Також обов'язково переконайтесь що кодування Ваших баз даних – `UTF8`.
+
+Далі потрібно створити користувача бази даних, якщо він ще не існує. Створіть нового користувача бази даних PostgreSQL, який називається **ckan_default**, і введіть пароль для користувача під час запиту. Цей пароль Вам знадобиться пізніше:
+
+```r
+sudo -u postgres createuser -S -D -R -P ckan_default
+```
+
+Створіть нову базу даних PostgreSQL, яка називається **ckan_default**, що належить користувачеві бази даних, яку Ви тільки що створили:
+```r
+sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
+```
