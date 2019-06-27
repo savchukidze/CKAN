@@ -1,10 +1,11 @@
 ## Як розгорнути CKAN? Український переклад
 
-У даному матеріалі описано, як встановити CKAN ***"from package"***. Це найшвидший та найпростіший спосіб встановити CKAN, проте він вимагає 64-бітної версії **Ubuntu 16.04** або ж 64-бітної версії **Ubuntu 14.04**. Якщо ж ви не використовуєте 64-бітну версію Ubuntu 16.04 або 64-бітну версію Ubuntu 14.04, або якщо ви встановлюєте CKAN для **розробки**, вам слід користуватися інструкцією встановлення CKAN [***"from source"***](https://docs.ckan.org/en/2.8/maintaining/installing/install-from-source.html). Встановлення CKAN ***"from source"*** працює з іншими версіями Ubuntu, а також з іншими операційними системами (зокрема, RedHat, Fedora, CentOS, OS X).
+У даному матеріалі описано, як встановити CKAN [***"from package"***](https://docs.ckan.org/en/2.8/maintaining/installing/install-from-package.html).
+Це найшвидший та найпростіший спосіб встановити CKAN, проте він вимагає 64-бітної версії **Ubuntu 16.04** або ж 64-бітної версії **Ubuntu 14.04**. Якщо ж ви не використовуєте 64-бітну версію Ubuntu 16.04 або 64-бітну версію Ubuntu 14.04, або якщо ви встановлюєте CKAN для **розробки**, вам слід користуватися інструкцією встановлення CKAN [***"from source"***](https://docs.ckan.org/en/2.8/maintaining/installing/install-from-source.html). Встановлення CKAN ***"from source"*** працює з іншими версіями Ubuntu, а також з іншими операційними системами (зокрема, RedHat, Fedora, CentOS, OS X).
 
 Також якщо Ви плануєте використовувати операційну систему, засновану не на **Debian**, найкращі способи інсталювання необхідних пакунків у Вашій операційній системі можна переглянути у [цьому розділі](https://github.com/ckan/ckan/wiki/How-to-Install-CKAN).
 
-Натомість у випадку встановлення CKAN ***"from package"*** з допомогою даною інструкції, наприкінці інсталяції ви отримаєте дві запущені веб-програми, **CKAN** і **DataPusher**, окрему службу для автоматичного імпортування даних до розширення [DataStore](https://docs.ckan.org/en/2.8/maintaining/datastore.html) CKAN .
+Натомість у випадку встановлення CKAN ***"from package"*** з допомогою даною інструкції, наприкінці інсталяції ви отримаєте дві розгорнуті веб-програми, власне, **CKAN** та **DataPusher**, окрему службу для автоматичного імпортування даних до розширення [DataStore](https://docs.ckan.org/en/2.8/maintaining/datastore.html) CKAN .
 
 При розгортанні CKAN, є наступні вимоги до портів хоста:
 
@@ -57,7 +58,7 @@ sudo dpkg -i python-ckan_2.8-trusty_amd64.deb
 ```diff
 !Примітка
 ```
-> Якщо ви отримали таку помилку, це означає, що з якоїсь причини модуль Apache WSGI не був включений:
+> Якщо Ви побачили наступну помилку, це означає, що з якоїсь причини модуль Apache WSGI не був включений:
 
 ```
 Syntax error on line 1 of /etc/apache2/sites-enabled/ckan_default:
@@ -74,7 +75,7 @@ sudo service apache2 restart
 ```
 ### 2. Встановлення та налаштування PostgreSQL
 
-> Ви можете встановити PostgreSQL та CKAN на різних серверах. Просто змініть параметр [sqlalchemy.url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#sqlalchemy-url) у вашому файлі /etc/ckan/default/production.ini, щоб він посилався на ваш сервер PostgreSQL.
+> Ви можете розгорнути PostgreSQL та CKAN на різних серверах. У такому разі просто змініть параметр [sqlalchemy.url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#sqlalchemy-url) `(/etc/ckan/default/production.ini)`, щоб він посилався на ваш сервер PostgreSQL.
 
 Встановіть PostgreSQL, виконавши наступну команду в терміналі:
 
@@ -87,7 +88,7 @@ sudo apt-get install -y postgresql
 sudo -u postgres psql -l
 ```
 
-Також обов'язково переконайтесь що кодування Ваших баз даних – `UTF8`.
+Також обов'язково переконайтесь, що кодування Ваших баз даних – `UTF8`. В іншому випадку, Ви точно зіштовхнетеся із рядом проблем.
 
 Далі потрібно створити користувача бази даних, якщо він ще не існує. Створіть нового користувача бази даних PostgreSQL, який називається **ckan_default**, і введіть пароль для користувача під час запиту. Цей пароль Вам знадобиться пізніше:
 
@@ -105,7 +106,7 @@ sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
 ```
 > Якщо Ви вирішили запускати PostgreSQL на окремому сервері, то вам потрібно буде проредагувати файли ***postgresql.conf*** та ***pg_hba.conf***. Для PostgreSQL 9.1 на Ubuntu ці файли знаходяться в *etc/postgresql/9.1/main*.
 
-Розкоментуйте параметр listen_addresses та вкажіть розділений комами список IP-адрес мережевих інтерфейсів, які повинні бути доступні для PostgreSQL або  вкажіть «*» , щоб усі можливі були доступні. Наприклад,
+Розкоментуйте параметр `listen_addresses` та вкажіть розділений комами список IP-адрес мережевих інтерфейсів, які повинні бути доступні для PostgreSQL або  вкажіть `*` , щоб усі можливі були доступними. Наприклад,
 
 ```r
 listen_addresses = 'localhost,192.168.1.21'
@@ -234,5 +235,5 @@ sudo service nginx restart
 Тепер ви можете перейти до інших розділів, щоб почати використовувати та налаштувати ваш сайт на CKAN.
 Наприклад, Ви можете створити [системного адмінвістатора](https://docs.ckan.org/en/2.8/maintaining/getting-started.html) або змінити [зовнішній вигляд](https://docs.ckan.org/en/2.8/sysadmin-guide.html) Вашого сайту.
 
-Інстукція на англійській занходиться [тут]()https://docs.ckan.org/en/2.8/maintaining/installing/install-from-package.html.
-Подальші налаштування вашого сайту на CKAN [тут](https://docs.ckan.org/en/2.8/maintaining/getting-started.html)
+Інстукція на англійській занходиться [тут](https://docs.ckan.org/en/2.8/maintaining/installing/install-from-package.html).
+Подальші налаштування вашого сайту на CKAN [тут](https://docs.ckan.org/en/2.8/maintaining/getting-started.html).
