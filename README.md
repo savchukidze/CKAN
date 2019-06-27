@@ -163,3 +163,36 @@ sudo service jetty restart
 Тепер Ви повинні бачити вітальну сторінку Solr, якщо ви відкриєте http://localhost:8983/solr/ у вашому веб-браузері (замініть localhost на адресу вашого сервера, якщо це потрібно).
 
 Якщо Ви отримали наступне повідомлення
+`Could not start Jetty servlet engine because no Java Development Kit (JDK) was found.` – Вам необхідно відредагувати файл `JAVA_HOME` (/etc/default/jetty), щоб вказати місце інсталяції JDK на вашому сервері.
+Наприклад, 
+```p
+JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64/
+```
+або
+```p
+JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386/
+```
+
+#### II. Замініть файл **`schema.xml`** символьним посиланням на файл схеми CKAN, що міститься в джерелах.
+```p
+sudo mv /etc/solr/conf/schema.xml /etc/solr/conf/schema.xml.bak
+sudo ln -s /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
+```
+Тепер перезапустіть Solr:
+
+Для **Ubuntu 16.04**:
+
+```p
+sudo service jetty8 restart
+```
+
+або для **Ubuntu 14.04**:
+```p
+sudo service jetty restart
+```
+Перевірте, чи працює Solr, відкривши http://localhost:8983/solr/ (замініть localhost на адресу вашого сервера, якщо це потрібно).
+
+#### III. Нарешті змініть налаштування [solr_url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#solr-url) (/etc/ckan/default/production.ini, щоб щоб він посилався на ваш сервер Solr, наприклад:
+```p
+solr_url=http://127.0.0.1:8983/solr
+```
