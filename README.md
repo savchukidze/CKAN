@@ -1,6 +1,3 @@
-# CKAN
-Installing CKAN from source. UA translation
-
 ## Як розгорнути CKAN? Український переклад
 
 У даному матеріалі описано, як встановити CKAN ***"from package"***. Це найшвидший та найпростіший спосіб встановити CKAN, проте він вимагає 64-бітної версії **Ubuntu 16.04** або ж 64-бітної версії **Ubuntu 14.04**. Якщо ж ви не використовуєте 64-бітну версію Ubuntu 16.04 або 64-бітну версію Ubuntu 14.04, або якщо ви встановлюєте CKAN для **розробки**, вам слід користуватися інструкцією встановлення CKAN [***"from source"***](https://docs.ckan.org/en/2.8/maintaining/installing/install-from-source.html). Встановлення CKAN ***"from source"*** працює з іншими версіями Ubuntu, а також з іншими операційними системами (зокрема, RedHat, Fedora, CentOS, OS X).
@@ -12,7 +9,7 @@ Installing CKAN from source. UA translation
 При розгортанні CKAN, є наступні вимоги до портів хоста:
 
 |Сервіс|Порт|Використовується для|
-| :---:  | :---:|:---:|
+| :---: | :---:|:---:|
 |NGINX	|80	|Proxy|
 |Apache2	|8080|	Web Server
 |Solr/Jetty|	8983	|Search
@@ -77,6 +74,8 @@ sudo service apache2 restart
 ```
 ### 2. Встановлення та налаштування PostgreSQL
 
+> Ви можете встановити PostgreSQL та CKAN на різних серверах. Просто змініть параметр [sqlalchemy.url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#sqlalchemy-url) у вашому файлі /etc/ckan/default/production.ini, щоб він посилався на ваш сервер PostgreSQL.
+
 Встановіть PostgreSQL, виконавши наступну команду в терміналі:
 
 ```
@@ -84,7 +83,7 @@ sudo apt-get install -y postgresql
 ```
 Перевірте, чи правильно встановлено PostgreSQL, вказавши існуючі бази даних:
 
-```
+```r
 sudo -u postgres psql -l
 ```
 
@@ -99,4 +98,20 @@ sudo -u postgres createuser -S -D -R -P ckan_default
 Створіть нову базу даних PostgreSQL, яка називається **ckan_default**, що належить користувачеві бази даних, яку Ви тільки що створили:
 ```r
 sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
+```
+
+```diff
+!Примітка
+```
+> Якщо Ви вирішили запускати PostgreSQL на окремому сервері, то вам потрібно буде проредагувати файли ***postgresql.conf*** та ***pg_hba.conf***. Для PostgreSQL 9.1 на Ubuntu ці файли знаходяться в *etc/postgresql/9.1/main*.
+
+Розкоментуйте параметр listen_addresses та вкажіть розділений комами список IP-адрес мережевих інтерфейсів, які повинні бути доступні для PostgreSQL або  вкажіть «*» , щоб усі можливі були доступні. Наприклад,
+
+```r
+listen_addresses = 'localhost,192.168.1.21'
+```
+Як у прикладі нижче, додайте рядок внизу файлу pg_hba.conf, щоб дозволити машині, на якій працює Apache, підключатися до PostgreSQL. Будь ласка, змініть IP-адресу відповідно до ваших налаштувань мережі.
+
+```r
+host    all             all             192.168.1.22/32                 md5
 ```
