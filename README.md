@@ -119,9 +119,9 @@ host    all             all             192.168.1.22/32                 md5
 Насамкінець відредагуйте параметр [sqlalchemy.url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#sqlalchemy-url) у файлі [конфігурації CKAN](https://docs.ckan.org/en/2.8/maintaining/configuration.html#config-file)(/etc/ckan/default/production.ini) та встановіть коректний пароль та назви бази даних та користувача бази даних (дані з попереднього етапу)
 
 ### 3. Встановлення та налаштування Solr 
-> Ви можете встановити Solr та CKAN на різних серверах. Просто змініть налаштування [solr_url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#solr-url) (/etc/ckan/default/production.ini, щоб посилання на сервер Solr було коректним.
+> Ви можете встановити **Solr** та **CKAN** на різних серверах. Просто змініть налаштування [solr_url](https://docs.ckan.org/en/2.8/maintaining/configuration.html#solr-url) (/etc/ckan/default/production.ini), щоб посилання на сервер Solr було коректним.
 
-Встановіть Solr, виконавши наступну команду в терміналі:
+Встановіть **Solr**, виконавши наступну команду в терміналі:
 
 ```r
 sudo apt-get install -y solr-jetty
@@ -133,18 +133,18 @@ sudo apt-get install -y solr-jetty
 * Not starting jetty - edit /etc/default/jetty (or /etc/default/jetty8) and change NO_START to be 0 (or comment it out).
 ```
 
-CKAN використовує Solr в якості власної пошукової системи. CKAN використовує налаштовувані файли схеми Solr, які враховують усю необхідну специфіку пошуку. Тепер, коли ми встановили CKAN, нам також потрібно встановити та налаштувати Solr.
+CKAN використовує Solr в якості власної пошукової системи, що враховує усю необхідну специфіку пошуку. Тепер, коли ми встановили CKAN, нам також потрібно встановити та налаштувати Solr.
 
 >> У даній інструкції пояснюється, як розгортати Solr за допомогою веб-сервера Jetty, але CKAN не вимагає Jetty - ви можете розгорнути Solr на іншому веб-сервері, наприклад Tomcat, якщо це зручно у вашій операційній системі.
 
 #### I. Відредагуйте файл конфігурації Jetty (/etc/default/jetty8 або /etc/default/jetty) та змініть наступні змінні:
 
 ```p
-NO_START=0            # (line 4)
-JETTY_HOST=127.0.0.1  # (line 16)
-JETTY_PORT=8983       # (line 19)
+NO_START=0            # (рядок 4)
+JETTY_HOST=127.0.0.1  # (рядок 16)
+JETTY_PORT=8983       # (рядок 19)
 ```
-Дані налаштування `JETTY_HOST` є коректними лише тоді, коли підключення відбувається з одного сервера. Якщо CKAN не встановлено на тому ж сервері, що й Jetty/Solr, вам доведеться змінити їх на відповідний хост або на 0.0.0.0 (і, можливо, відповідно налаштувати брандмауер).
+УВАГА! Дані налаштування `JETTY_HOST` є коректними лише тоді, коли підключення відбувається з одного сервера. Якщо CKAN не встановлено на тому ж сервері, що й **Jetty/Solr**, вам доведеться змінити їх на відповідний хост або на 0.0.0.0 (і, можливо, відповідно налаштувати брандмауер).
 
 Запустіть або перезапустіть сервер Jetty.
 
@@ -161,7 +161,7 @@ sudo service jetty restart
 
 >> Будь ласка, ігноруйте будь-яке попередження про те, що Jetty ще не запущено - деякі дистрибутиви Ubuntu не запускають Jetty під час встановлення, але це не важливо.
 
-Тепер Ви повинні бачити вітальну сторінку Solr, якщо ви відкриєте http://localhost:8983/solr/ у вашому веб-браузері (замініть localhost на адресу вашого сервера, якщо це потрібно).
+Тепер Ви повинні побачити вітальну сторінку Solr, якщо відкриєте http://localhost:8983/solr/ у вашому браузері (замініть localhost на адресу вашого сервера, якщо це потрібно).
 
 Якщо Ви отримали наступне повідомлення
 `Could not start Jetty servlet engine because no Java Development Kit (JDK) was found.` – Вам необхідно відредагувати файл `JAVA_HOME` (/etc/default/jetty), щоб вказати місце інсталяції JDK на вашому сервері.
@@ -174,7 +174,7 @@ JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64/
 JAVA_HOME=/usr/lib/jvm/java-6-openjdk-i386/
 ```
 
-#### II. Замініть файл **`schema.xml`** символьним посиланням на файл схеми CKAN, що міститься в джерелах.
+#### II. Замініть файл **`schema.xml`** символьним посиланням на файл схеми CKAN, що міститься в джерелах:
 ```p
 sudo mv /etc/solr/conf/schema.xml /etc/solr/conf/schema.xml.bak
 sudo ln -s /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
@@ -199,7 +199,7 @@ solr_url=http://127.0.0.1:8983/solr
 ```
 ### 4. Оновлення конфігурації та ініціалізація бази даних
 
-#### І. Відредагуйте файл у файлі [конфігурації CKAN](https://docs.ckan.org/en/2.8/maintaining/configuration.html#config-file)(/etc/ckan/default/production.ini), задавши наступні параметри:
+#### І. Відредагуйте файл [конфігурації CKAN](https://docs.ckan.org/en/2.8/maintaining/configuration.html#config-file)(/etc/ckan/default/production.ini), задавши наступні параметри:
 
 **site_id**
 
