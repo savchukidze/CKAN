@@ -32,7 +32,7 @@ sudo apt-get update
 sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server git-core
 ```
 
-У разі, якщо виникла помилка при встановленні nginx
+У разі, якщо виникла помилка при встановленні nginx виконайте натспуні команди:
 
 ```r
 sudo apt install curl gnupg2 ca-certificates lsb-release
@@ -44,6 +44,11 @@ echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
 
 sudo apt update
 sudo apt install nginx
+```
+
+Для того, щоб оновити всі пакети:
+```r
+apt upgrade
 ```
 
 #### III. Завантажте пакет CKAN:
