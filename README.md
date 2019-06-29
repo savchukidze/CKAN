@@ -31,6 +31,21 @@ sudo apt-get update
 ```r
 sudo apt-get install -y nginx apache2 libapache2-mod-wsgi libpq5 redis-server git-core
 ```
+
+У разі, якщо виникла помилка при встановленні nginx
+
+```r
+sudo apt install curl gnupg2 ca-certificates lsb-release
+
+echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
+    | sudo tee /etc/apt/sources.list.d/nginx.list
+
+ sudo apt-key fingerprint ABF5BD827BD9BF62
+
+sudo apt update
+sudo apt install nginx
+```
+
 #### III. Завантажте пакет CKAN:
 
 Для **Ubuntu 16.04**:
